@@ -13,9 +13,9 @@ As someone actively applying to internships and full-time roles, I noticed my Gm
 - Job alerts
 - "Thanks for applying" auto-responses
 - Rejections disguised as updates
-- Actual interviews or offers hidden in the noise
+- Actual interviews or offers hidden in the noise (very rare)
 
-This project helps **automatically parse and classify** those emails using OpenAI and cleanly presents them in a dashboard.
+This is where ClassiMail comes in. ClassiMail helps **automatically parse and classify** those emails using OpenAI and cleanly presents classifies them in a dashboard, with categories tailored towards job applications.
 
 ---
 
