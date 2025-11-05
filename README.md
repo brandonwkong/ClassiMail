@@ -54,18 +54,46 @@ cd ClassiMail
 
 ### 2. Setup Python Backend
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-Place your credentials.json in the root (get it from Google Cloud Console)
+# Activate virtual environment
+# macOS/Linux:
+source venv/bin/activate
+# Windows:
+venv\Scripts\activate
 
-### 3. Setup frontend
+pip install -r requirements.txt
+Place your credentials.json in the project root (download it from your Google Cloud Console).
+
+This file enables Gmail API authentication.
+
+### 3. Set up the frontend
+bash
+Copy code
 cd gmail_ui
 npm install
 npm run dev
+Frontend runs at http://localhost:3000
 
 ### 4. Run the backend
+bash
+Copy code
 cd ..
 python app.py
+Backend runs at http://localhost:5000
 
+### 5. (Optional) Run monitoring stack
+The project includes Prometheus + Grafana for application metrics.
+
+bash
+Copy code
+docker compose up -d
+Prometheus → http://localhost:9090
+
+Grafana → http://localhost:3030
+
+You can visualize metrics such as:
+
+emails_processed_total
+
+rate(emails_processed_total[1m])
 
 Built because I wanted my email to work for me, not waste my time.
