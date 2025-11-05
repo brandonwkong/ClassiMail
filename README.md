@@ -54,10 +54,10 @@ cd ClassiMail
 
 ### 2. Setup Python Backend
 python -m venv venv
-# Activate virtual environment
-# macOS/Linux:
+
+macOS/Linux:
 source venv/bin/activate
-# Windows:
+Windows:
 venv\Scripts\activate
 
 pip install -r requirements.txt
