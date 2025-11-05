@@ -1,0 +1,10 @@
+flask
+flask-cors
+openai
+google-auth
+google-auth-oauthlib
+google-api-python-client
+requests
+python-dotenv
+html2text
+sqlite3-binary
