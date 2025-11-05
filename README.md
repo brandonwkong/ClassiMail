@@ -53,6 +53,7 @@ cd ClassiMail
 ```
 
 ### 2. Setup Python Backend
+```bash
 python -m venv venv
 
 macOS/Linux:
@@ -61,31 +62,31 @@ Windows:
 venv\Scripts\activate
 
 pip install -r requirements.txt
+```
 Place your credentials.json in the project root (download it from your Google Cloud Console).
-
 This file enables Gmail API authentication.
 
 ### 3. Set up the frontend
-bash
-Copy code
+```bash
 cd gmail_ui
 npm install
 npm run dev
+```
 Frontend runs at http://localhost:3000
 
 ### 4. Run the backend
-bash
-Copy code
+```bash
 cd ..
 python app.py
+```
 Backend runs at http://localhost:5000
 
 ### 5. (Optional) Run monitoring stack
 The project includes Prometheus + Grafana for application metrics.
 
-bash
-Copy code
+```bash
 docker compose up -d
+```
 Prometheus → http://localhost:9090
 
 Grafana → http://localhost:3030
