@@ -16,7 +16,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 @app.route('/auth')
 def auth():
     flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
-    creds = flow.run_local_server(port=8080)  # opens Google login in browser
+    creds = flow.run_local_server(port=8081)  # opens Google login in browser
     with open('token.pkl', 'wb') as token:
         pickle.dump(creds, token)
     return redirect('http://localhost:3000?logged_in=true')
