@@ -6,12 +6,24 @@ from database import is_seen, mark_seen, get_saved_info
 from flask import redirect
 from google_auth_oauthlib.flow import InstalledAppFlow
 import pickle
+from prometheus_client import Counter, Histogram, generate_latest
+from flask import Response
+
 
 
 app = Flask(__name__)
 CORS(app)
 
+REQUEST_COUNT = Counter('flask_requests_total', 'Total number of HTTP requests', ['endpoint'])
+REQUEST_LATENCY = Histogram('flask_request_latency_seconds', 'Request latency in seconds', ['endpoint'])
+EMAILS_PROCESSED = Counter('emails_processed_total', 'Total emails processed')
+
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+
+@app.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype='text/plain')
+
 
 @app.route('/auth')
 def auth():
@@ -24,6 +36,11 @@ def auth():
 
 @app.route('/emails')
 def get_emails():
+
+    import time
+    start = time.time()
+    REQUEST_COUNT.labels('/emails').inc()
+
     service = get_gmail_service()
     result = service.users().messages().list(userId='me', maxResults=15, labelIds=['INBOX']).execute()
     messages = result.get('messages', [])
@@ -31,6 +48,7 @@ def get_emails():
     email_list = []
 
     for msg in messages:
+        EMAILS_PROCESSED.inc()
         msg_id = msg["id"]
 
         if is_seen(msg_id):
@@ -63,7 +81,7 @@ def get_emails():
             "body": body,
             "category": category,
         })
-
+    REQUEST_LATENCY.labels('/emails').observe(time.time() - start)
     return jsonify(email_list)
 
 if __name__ == '__main__':
