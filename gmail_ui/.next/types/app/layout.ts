@@ -1,4 +1,4 @@
-// File: C:\UW_2nd_Year\Projects\gmail_parser\gmail_ui\app\layout.tsx
+// File: C:\UW_2nd_Year\Projects\classimail\gmail_ui\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
