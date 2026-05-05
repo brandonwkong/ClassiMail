@@ -4,7 +4,7 @@ import sys
 from helpers import extract_body, get_gmail_service, classify_email, get_category
 from database import (
     is_seen, mark_seen, get_saved_info, log_interaction,
-    save_email_full, get_interaction_stats, get_detailed_stats
+    save_email_full, get_interaction_stats, get_detailed_stats, update_email_features, get_email_ctr
 )
 from features import extract_features
 from ranker import compute_rank_score, rank_emails
@@ -58,14 +58,27 @@ def get_emails():
 
         if is_seen(msg_id):
             # Get cached data including features and body
-            subject, sender_name, category, rank_score, features, body = get_saved_info(msg_id)
+            subject, sender_name, category, old_rank_score, features, body = get_saved_info(msg_id)
+            
+            # Add/update CTR from interactions
+            features['ctr'] = get_email_ctr(msg_id)
+            
+            # Recompute rank_score with current ranking logic
+            rank_score = compute_rank_score(features)
+            
+            print(f"[DEBUG] Recomputing rank for {msg_id}: Old={old_rank_score}, New={rank_score}")
+            
+            # Update DB if rank changed (to keep it fresh)
+            if abs(rank_score - (old_rank_score or 0)) > 0.001:  # small threshold for floating point
+                update_email_features(msg_id, rank_score, features)
+            
             email_list.append({
                 "id": msg_id,
                 "sender_name": sender_name,
                 "subject": subject,
                 "body": body,
                 "category": category,
-                "rank_score": rank_score or 0.0,
+                "rank_score": rank_score,
                 "features": features,
             })
             continue
@@ -98,6 +111,9 @@ def get_emails():
                 internal_date_ms=internal_date,
                 has_attachment=has_attachment
             )
+            
+            # Add CTR from interactions
+            features['ctr'] = get_email_ctr(msg_id)
 
             # Compute rank score
             rank_score = compute_rank_score(features)

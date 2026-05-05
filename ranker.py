@@ -97,6 +97,10 @@ def compute_static_rank_score(features: Dict[str, Any]) -> float:
     urgency_score = min(urgency_score, 1.0)
     score += urgency_score * 0.10
 
+    # 6. CTR boost (weight: 10%)
+    ctr_score = features.get('ctr', 0.0)
+    score += ctr_score * 0.10
+
     return round(score, 4)
 
 

@@ -205,15 +205,33 @@ export default function EmailClassification() {
 
   // Filter and sort emails based on active category
   const filteredEmails = (() => {
+    let result;
     if (activeCategory === "all") {
-      return emails
+      result = emails
     } else if (activeCategory === "recommended") {
       // Sort by rank_score descending
-      return [...emails].sort((a, b) => (b.rank_score || 0) - (a.rank_score || 0))
+      result = [...emails].sort((a, b) => (b.rank_score || 0) - (a.rank_score || 0))
+      console.log("Recommended emails sorted:", result.map(e => ({
+        subject: e.subject.slice(0, 30),
+        rank: e.rank_score,
+        category: e.category
+      })))
     } else {
-      return emails.filter((email) => email.category.toLowerCase() === activeCategory)
+      result = emails.filter((email) => email.category.toLowerCase() === activeCategory)
     }
+    
+    // Update positions for the filtered/sorted list
+    result.forEach((email, index) => {
+      email.position = index + 1
+    })
+    
+    return result
   })()
+
+  // Debug: Log active category changes
+  useEffect(() => {
+    console.log("Active category changed to:", activeCategory)
+  }, [activeCategory])
 
   const getCategoryIcon = (category: string) => {
     switch (category.toLowerCase()) {
