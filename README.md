@@ -102,19 +102,14 @@
   - Grafana → http://localhost:3030
 
   ---
-  📊 API Endpoints
-  ┌─────────────────┬────────┬───────────────────────────────────────────────┐
-  │    Endpoint     │ Method │                  Description                  │
-  ├─────────────────┼────────┼───────────────────────────────────────────────┤
-  │ /emails         │ GET    │ Fetch and classify emails with rank scores    │
-  ├─────────────────┼────────┼───────────────────────────────────────────────┤
-  │ /interact       │ POST   │ Log user interaction (click, open, skip)      │
-  ├─────────────────┼────────┼───────────────────────────────────────────────┤
-  │ /stats          │ GET    │ Basic interaction counts                      │
-  ├─────────────────┼────────┼───────────────────────────────────────────────┤
-  │ /stats/detailed │ GET    │ Full stats: CTR by position, time spent, etc. │
-  ├─────────────────┼────────┼───────────────────────────────────────────────┤
-  │ /metrics        │ GET    │ Prometheus metrics                            │
-  └─────────────────┴────────┴───────────────────────────────────────────────┘
+## API Endpoints
+
+| Endpoint         | Method | Description |
+|-----------------|--------|------------|
+| /emails         | GET    | Fetch and classify emails with rank scores |
+| /interact       | POST   | Log user interaction (click, open, skip) |
+| /stats          | GET    | Basic interaction counts |
+| /stats/detailed | GET    | Full stats: CTR by position, time spent, etc. |
+| /metrics        | GET    | Prometheus metrics |
   ---
   Built because I wanted my email to work for me, not waste my time.
