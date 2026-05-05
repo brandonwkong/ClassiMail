@@ -9,6 +9,8 @@ __pycache__/
 *.pyo
 *.pyd
 
+# Frontend
+gmail_ui/.next/
 # ======================
 # dependencies (JS)
 # ======================

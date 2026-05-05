@@ -199,6 +199,18 @@ def get_interaction_stats():
     return {row[0]: row[1] for row in rows}
 
 
+def get_email_ctr(email_id):
+    """Get click-through rate for an email based on past interactions."""
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM interactions WHERE email_id = ? AND action IN ('click', 'open')", (email_id,))
+    clicks = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM interactions WHERE email_id = ?", (email_id,))
+    total = c.fetchone()[0]
+    conn.close()
+    return clicks / total if total > 0 else 0.0
+
+
 def get_detailed_stats():
     """Get detailed interaction stats including time spent."""
     conn = get_conn()
